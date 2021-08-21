@@ -6,7 +6,7 @@ install<br>
 usage<br>
 - Extract the contents of the Anchor tag<br>
 ```➜  ~ curl -s https://github.com/ | tagext -tag a```
-- Extract the contents of the Anchor tag as html<br>
+- Extract the contents of the Anchor tag as html (You can give the output to this tool again)<br> 
 ```➜  ~ curl -s https://github.com/ | tagext -tag a -html true```
 - Extract the href attributes of the Anchor tag<br>
 ```➜  ~ curl -s https://github.com/ | tagext -tag a -attr href```
