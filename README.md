@@ -4,9 +4,9 @@ install<br>
 ```➜  ~ go get -u -v github.com/kawakatz/tagext```
 
 usage<br>
-- Extract the contents of the Anchor tag
+- Extract the contents of the Anchor tag<br>
 ```➜  ~ curl -s https://github.com/ | tagext -tag a```
-- Extract the contents of the Anchor tag as html
+- Extract the contents of the Anchor tag as html<br>
 ```➜  ~ curl -s https://github.com/ | tagext -tag a -html true```
-- Extract the href attributes of the Anchor tag
+- Extract the href attributes of the Anchor tag<br>
 ```➜  ~ curl -s https://github.com/ | tagext -tag a -attr href```
