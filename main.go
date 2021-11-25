@@ -2,22 +2,29 @@ package main
 
 import (
 	"bufio"
-	"os"
-	"fmt"
 	"flag"
+	"fmt"
+	"os"
 	"strings"
+
 	"github.com/PuerkitoBio/goquery"
 )
 
-func main() {
-	tag_ptr := flag.String("tag", "default", "tag name")
-	attr_ptr := flag.String("attr", "default", "attribute name")
-	html_ptr := flag.String("html", "false", "output as html")
-	flag.Parse()
+// Usage prints usage.
+func Usage() {
+	fmt.Println("usage: grepfiles <tag> <attr (optional)> [-html]")
+}
 
-	tag := *tag_ptr
-	attr := *attr_ptr
-	html := *html_ptr
+func main() {
+	htmlPtr := flag.Bool("html", false, "output as html")
+	flag.Parse()
+	cmdArgs := flag.Args()
+
+	tag := cmdArgs[0]
+	var attr string
+	if len(cmdArgs) >= 2 {
+		attr = cmdArgs[1]
+	}
 
 	if tag == "default" {
 		fmt.Println("[!] tag name must be specified.")
@@ -35,27 +42,27 @@ func main() {
 	r := strings.NewReader(input)
 	doc, _ := goquery.NewDocumentFromReader(r)
 
-	if attr == "default" {
-		if html == "true" {
+	if attr == "" {
+		if *htmlPtr {
 			doc.Find(tag).Each(func(i int, el *goquery.Selection) {
-		    	fmt.Println(el.Html())
+				fmt.Println(el.Html())
 			})
 		} else {
 			doc.Find(tag).Each(func(i int, el *goquery.Selection) {
-		    	output := el.Text()
-		    	output = strings.Replace(output, "\n", "", -1)
-		    	output = strings.TrimSpace(output)
-		    	if output != "" {
-		    		fmt.Println(output)
-		    	}
+				output := el.Text()
+				output = strings.Replace(output, "\n", "", -1)
+				output = strings.TrimSpace(output)
+				if output != "" {
+					fmt.Println(output)
+				}
 			})
 		}
 	} else {
 		doc.Find(tag).Each(func(i int, el *goquery.Selection) {
-	    	attr_val, _ := el.Attr(attr)
-	    	if attr_val != "" {
-	    		fmt.Println(attr_val)
-	    	}
+			attr_val, _ := el.Attr(attr)
+			if attr_val != "" {
+				fmt.Println(attr_val)
+			}
 		})
 	}
 }
